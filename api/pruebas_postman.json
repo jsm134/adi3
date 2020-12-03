@@ -1,0 +1,1567 @@
+{
+	"info": {
+		"_postman_id": "d6401474-c20c-42a6-917c-290def9c165e",
+		"name": "Tests Api Peliculas",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Usuario No Logueado",
+			"item": [
+				{
+					"name": "/films",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ec2e2fdf-f2f0-45fe-8017-a6c0e7bc3e2c",
+								"exec": [
+									"pm.test(\"Status code is 200\", function(){\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"pm.test(\"Existen films\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.film[0]).exist;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"pm.test(\"Todos los parametros existen\", function() {\r",
+									"    var jsonData = pm.response.json()\r",
+									"    var film = jsonData.film[0]\r",
+									"    pm.expect(film.id).to.eq(1)\r",
+									"    pm.expect(film.title).to.eq(\"Pelicula 1\")\r",
+									"    pm.expect(film.year).to.eq(2020)\r",
+									"    pm.expect(film.description).to.eq(\"Primera pelicula de la base de datos\")\r",
+									"    pm.expect(film.genre).to.eq(\"Tests\")\r",
+									"    pm.expect(film.calification).eq(\"5\")\r",
+									"    pm.expect(film.duration).to.eq(130)\r",
+									"    pm.expect(film.link).to.eq(\"http://localhost:3000/films/1\")\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/films",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"films"
+							]
+						},
+						"description": "Un usuario no logueado puede acceder a la lista completa de peliculas en la bd"
+					},
+					"response": []
+				},
+				{
+					"name": "/films/{id}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9e470cf2-ec1a-43ae-98a9-dcb7476cc784",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Todos los parametros existen\", function() {\r",
+									"    var jsonData = pm.response.json()\r",
+									"    var film = jsonData.film[0]\r",
+									"    pm.expect(film.id).to.eq(1)\r",
+									"    pm.expect(film.title).to.eq(\"Pelicula 1\")\r",
+									"    pm.expect(film.year).to.eq(2020)\r",
+									"    pm.expect(film.description).to.eq(\"Primera pelicula de la base de datos\")\r",
+									"    pm.expect(film.genre).to.eq(\"Tests\")\r",
+									"    pm.expect(film.calification).eq(\"5\")\r",
+									"    pm.expect(film.duration).to.eq(130)\r",
+									"    pm.expect(film.link).not.exist\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Al ver una pelicula aparecen comentarios\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.comments).exist\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/films/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"films",
+								"1"
+							]
+						},
+						"description": "{id}: id de la pelicula a la que queremos acceder a sus datos\r\n\r\nUn usuario no logueado puede acceder a la información de una película concreta, inlcuyendo sus comentarios."
+					},
+					"response": []
+				},
+				{
+					"name": "/user/{id} ERROR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8934113e-7bcc-4778-be3c-2c19de3bd3f2",
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensaje de error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.Message).to.eql(\"No estás logueado\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/user/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"1"
+							]
+						},
+						"description": "{id}: id del usuario del cual queremos obtener sus datos.\r\n\r\nUn usuario no logueado no puede acceder a los datos de un usuario."
+					},
+					"response": []
+				},
+				{
+					"name": "/user/{id} ERROR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b379f144-a9d5-46d6-9ff4-edf84d6f6004",
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"user\": \"a\", \"pass\": \"a\", \"telephone\": \"111111\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"1"
+							]
+						},
+						"description": "{id}: id del usuario al cual quieres modificar los datos\r\n\r\nUn usuario no logueado no puede modificar los datos de ningún usuario."
+					},
+					"response": []
+				},
+				{
+					"name": "/films ERROR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7adc4cde-5780-4902-895d-cb0bbde1d4cb",
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/films",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"films"
+							]
+						},
+						"description": "Un usuario no logueado no puede añadir una pelicula"
+					},
+					"response": []
+				},
+				{
+					"name": "/films/{id} ERROR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fffcfa49-d7df-4447-8ad4-b20f7cc938a4",
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Pelicula modificada test\",\r\n    \"year\": \"1999\",\r\n    \"description\": \"Esperemos que funcione\",\r\n    \"genre\": \"Test\",\r\n    \"calification\": \"2\",\r\n    \"duration\": \"130\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/films/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"films",
+								"3"
+							]
+						},
+						"description": "{id}: id de la pelicula que se quiere editar.\r\n\r\nUn usuario no logueado no puede editar una pelicula."
+					},
+					"response": []
+				},
+				{
+					"name": "/comments/{id}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a19aa532-1ac6-41bd-a0ff-455adf7f9c8f",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/comments/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"comments",
+								"1"
+							]
+						},
+						"description": "{id}: id de la pelicula de la cual queremos leer sus comentarios\r\n\r\nUn usuario no logueado puede acceder a los comentarios de una peliucla"
+					},
+					"response": []
+				},
+				{
+					"name": "/comments/{id} ERROR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d3700c9f-9bf0-4b3d-9b75-c45463780c43",
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"mensaje\": \"prueba de inserción de comentario\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/comments/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"comments",
+								"1"
+							]
+						},
+						"description": "{id}: id de la pelicula que queremos comentar\r\n\r\nUn usuario no logueado no puede comentar una pelicula"
+					},
+					"response": []
+				},
+				{
+					"name": "/films/genre/{genero}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bc53136e-c3ee-4758-bed2-0fdc4f57ae6b",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/films/genre/Tests",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"films",
+								"genre",
+								"Tests"
+							]
+						},
+						"description": "{genero}: genero de la pelicula a buscar\r\n\r\nUn usuario público puede buscar una película por su género"
+					},
+					"response": []
+				},
+				{
+					"name": "/films/title/{titulo}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "86bb9e31-76f4-46a6-bf45-d688360ca5b1",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/films/title/pelicula",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"films",
+								"title",
+								"pelicula"
+							]
+						},
+						"description": "{titulo}: genero de la pelicula a buscar\r\n\r\nUn usuario público puede buscar una película por su género"
+					},
+					"response": []
+				},
+				{
+					"name": "/rents ERROR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "703119ff-87aa-4964-ad35-54b26bda1334",
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/rents/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"rents",
+								""
+							]
+						},
+						"description": "Un usuario no logueado no puede ver alquileres"
+					},
+					"response": []
+				},
+				{
+					"name": "/rents/{id} ERROR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "32782cf7-e581-40b4-ac68-fa31fb7d7ccd",
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/rents/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"rents",
+								"1"
+							]
+						},
+						"description": "{id}: id del al quiler del que se desean ver los datos\r\n\r\nUn usuario no logueado no puede ver detalles de ningún alquiler"
+					},
+					"response": []
+				},
+				{
+					"name": "/rents/film{id} ERROR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d9bb47f2-073e-4f9a-bb4a-328cdeba8ebf",
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/rents/film/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"rents",
+								"film",
+								"1"
+							]
+						},
+						"description": "{id}: id de la pelicula que deseamos alquilar\r\n\r\nUn usuario no logueado no puede alquilar una pelicula"
+					},
+					"response": []
+				},
+				{
+					"name": "/login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7ae555d1-eaf8-490c-b8cf-0d63f137499c",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"user\": \"a\", \"pass\": \"a\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"login"
+							]
+						},
+						"description": "Un usuario puede iniciar sesión"
+					},
+					"response": []
+				},
+				{
+					"name": "/login ERROR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a1805934-70c1-42ec-bb23-9b061a1b0036",
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"user\": \"a\", \"pass\": \"b\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"login"
+							]
+						},
+						"description": "Un usuario puede iniciar sesión, si intorduce credenciales incorrectos dará error."
+					},
+					"response": []
+				},
+				{
+					"name": "/register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d2bdf87f-2112-49d3-ac80-7316ea8c2787",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8fe7b590-0e85-48f1-8ad0-7f8fdb282d5e",
+								"exec": [
+									"var user = \"user\" + _.random(1, 999999999)\r",
+									"pm.environment.set(\"random_user\", user )"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user\": \"{{random_user}}\",\r\n    \"pass\": \"a\",\r\n    \"telephone\": 123456\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"register"
+							]
+						},
+						"description": "Un usuario puede registrarse"
+					},
+					"response": []
+				},
+				{
+					"name": "/register ERROR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "038791c7-ee93-4c6b-9be9-985f6543164d",
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user\": \"a\",\r\n    \"pass\": \"a\",\r\n    \"telephone\": 123456\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"register"
+							]
+						},
+						"description": "El registro puede fallar si ya existe un usuario con el mismo username"
+					},
+					"response": []
+				},
+				{
+					"name": "/films/{id} ERROR",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "b337509f-1ac0-4102-96c7-5c49383a6bb1",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "67aeabc9-c32c-4c37-92e5-1d6056be6e32",
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/films/{{film_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"films",
+								"{{film_id}}"
+							]
+						},
+						"description": "{id}: id de la pelicula a borrar\r\n\r\nUn usuario no logueado no puede borrar una pelicula"
+					},
+					"response": []
+				}
+			],
+			"description": "Conjunto de pruebas de usuarios no logueados",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "fa823486-8309-4d71-8ab6-c8ffe95671db",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "ffcb02b4-336e-421b-b527-c180f2f7a75b",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Usuario Logueado",
+			"item": [
+				{
+					"name": "/user{id}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "12322645-be8e-471c-9a82-ec284da87820",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwidXNlciI6ImEiLCJwYXNzIjoiYSJ9.H1vwXMspdzH_eHkJUeVfb76_3l-kP4RneCvAImEBxtM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/user/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"1"
+							]
+						},
+						"description": "{id}: id del usuario que queremos ver los datos\r\n\r\nUn usuario logueado puede ver sus datos"
+					},
+					"response": []
+				},
+				{
+					"name": "/user/{id} ERROR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "10cd2916-0b30-4215-93df-bf0cc4f13006",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwidXNlciI6ImIiLCJwYXNzIjoiYiJ9.GcDMsC_EmwnGLDN1M-SHjb1oLbCYN9M11mpuSBdanyM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/user/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"1"
+							]
+						},
+						"description": "{id}: id del usuario a ver los datos\r\n\r\nUn usuario logueado no puede ver los datos de otro usuario"
+					},
+					"response": []
+				},
+				{
+					"name": "/user/{id}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fc3c7352-9bc1-4c13-a439-7b931835fed3",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwidXNlciI6ImEiLCJwYXNzIjoiYSJ9.H1vwXMspdzH_eHkJUeVfb76_3l-kP4RneCvAImEBxtM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"user\": \"a\", \"pass\": \"a\", \"telephone\": \"111111\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"1"
+							]
+						},
+						"description": "{id}: id de usuaurio a modificar los datos\r\n\r\nUn usuario logueado puede modificar sus datos"
+					},
+					"response": []
+				},
+				{
+					"name": "/user/{id} ERROR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "646d19b0-5d3e-497a-914c-57ae36432cc6",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwidXNlciI6ImEiLCJwYXNzIjoiYSJ9.H1vwXMspdzH_eHkJUeVfb76_3l-kP4RneCvAImEBxtM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"user\": \"a\", \"pass\": \"a\", \"telephone\": \"111111\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"2"
+							]
+						},
+						"description": "{id}: id de usuaurio a modificar los datos\r\n\r\nUn usuario logueado puede modificar sus datos, no los de otros usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "/films",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "edec6376-eacc-44dd-89b8-b493d092f910",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwidXNlciI6ImEiLCJwYXNzIjoiYSJ9.H1vwXMspdzH_eHkJUeVfb76_3l-kP4RneCvAImEBxtM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Pelicula añadida test\",\r\n    \"year\": \"1999\",\r\n    \"description\": \"Esperemos que funcione\",\r\n    \"genre\": \"Test\",\r\n    \"calification\": \"2\",\r\n    \"duration\": \"130\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/films",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"films"
+							]
+						},
+						"description": "Un usuario logueado puede añadir una pelicula"
+					},
+					"response": []
+				},
+				{
+					"name": "/films ERROR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "708abe54-4be6-4941-bbb1-1f84ef57b548",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwidXNlciI6ImEiLCJwYXNzIjoiYSJ9.H1vwXMspdzH_eHkJUeVfb76_3l-kP4RneCvAImEBxtM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/films",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"films"
+							]
+						},
+						"description": "Al añadir peliculas faltan parámetros"
+					},
+					"response": []
+				},
+				{
+					"name": "/films/{id}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "820c7cf9-d7c6-4123-9af0-43e6f52ea5da",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Pelicula actualizada correctamente\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.mensaje).to.eql(\"Pelicula actualizada correctamente\");\r",
+									"    pm.expect(jsonData.film).exist\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwidXNlciI6ImEiLCJwYXNzIjoiYSJ9.H1vwXMspdzH_eHkJUeVfb76_3l-kP4RneCvAImEBxtM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Pelicula modificada test\",\r\n    \"year\": \"1999\",\r\n    \"description\": \"Esperemos que funcione\",\r\n    \"genre\": \"Test\",\r\n    \"calification\": \"2\",\r\n    \"duration\": \"130\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/films/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"films",
+								"3"
+							]
+						},
+						"description": "{id}: id de la pelicula a editar\r\n\r\nUn usuario logueado puede editar los datos de una pelicula"
+					},
+					"response": []
+				},
+				{
+					"name": "/comments/{id}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0648c40a-9931-4542-9a06-4bff49c1bdc7",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwidXNlciI6ImEiLCJwYXNzIjoiYSJ9.H1vwXMspdzH_eHkJUeVfb76_3l-kP4RneCvAImEBxtM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"mensaje\": \"prueba de inserción de comentario\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/comments/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"comments",
+								"1"
+							]
+						},
+						"description": "{id}: id de la pelicula que queremos comentar\r\n\r\nUn usuario logueado puede añadir un comentario a una pelicula"
+					},
+					"response": []
+				},
+				{
+					"name": "/comments/{id} PELICULA NO EXISTE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5cfd34b4-f898-4964-a193-8a2368641e4d",
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwidXNlciI6ImEiLCJwYXNzIjoiYSJ9.H1vwXMspdzH_eHkJUeVfb76_3l-kP4RneCvAImEBxtM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"mensaje\": \"prueba de inserción de comentario\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/comments/9999999999",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"comments",
+								"9999999999"
+							]
+						},
+						"description": "{id}: id de la pelicula que queremos comentar\r\n\r\nUn usuario logueado puede añadir un comentario a una pelicula, si la pelicula no existe envia error 404"
+					},
+					"response": []
+				},
+				{
+					"name": "/rents",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c1751187-8bb5-4e09-8ccb-ff9cc00e6d71",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwidXNlciI6ImEiLCJwYXNzIjoiYSJ9.H1vwXMspdzH_eHkJUeVfb76_3l-kP4RneCvAImEBxtM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/rents",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"rents"
+							]
+						},
+						"description": "Un usuario logueado puede ver sus alquileres de peliculas"
+					},
+					"response": []
+				},
+				{
+					"name": "/rents/{id}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "298b504a-383c-4522-9fc8-10ae70725efb",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwidXNlciI6ImEiLCJwYXNzIjoiYSJ9.H1vwXMspdzH_eHkJUeVfb76_3l-kP4RneCvAImEBxtM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/rents/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"rents",
+								"1"
+							]
+						},
+						"description": "{id}: id del alquiler del cual se quieren ver los datos\r\n\r\nUn usuario logueado puede ver los detalles de sus alquileres"
+					},
+					"response": []
+				},
+				{
+					"name": "/rents/{id} ERROR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "97d3655c-1c32-458c-8a7f-58b831bdfd5a",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwidXNlciI6ImIiLCJwYXNzIjoiYiJ9.GcDMsC_EmwnGLDN1M-SHjb1oLbCYN9M11mpuSBdanyM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/rents/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"rents",
+								"1"
+							]
+						},
+						"description": "{id}: id del alquiler del cual se quieren ver los datos\r\n\r\nUn usuario logueado no puede ver los alquileres de otro usuario"
+					},
+					"response": []
+				},
+				{
+					"name": "/rents/film/{id}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "871c1b63-d99d-49a4-b309-c4921e609df9",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwidXNlciI6ImIiLCJwYXNzIjoiYiJ9.GcDMsC_EmwnGLDN1M-SHjb1oLbCYN9M11mpuSBdanyM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/rents/film/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"rents",
+								"film",
+								"1"
+							]
+						},
+						"description": "{id}: el id de la pelicula que deseamos alquilar\r\n\r\nUn usuario logueado puede alquilar una pelicula"
+					},
+					"response": []
+				},
+				{
+					"name": "/films/{id}",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "34968688-5517-4a1a-a899-d5767bf9e728",
+								"exec": [
+									"pm.sendRequest({\r",
+									"    url: 'http://localhost:3000/films/',\r",
+									"    method: 'POST',\r",
+									"    header: {\r",
+									"        'content-type': 'application/json',\r",
+									"        'authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwidXNlciI6ImEiLCJwYXNzIjoiYSJ9.H1vwXMspdzH_eHkJUeVfb76_3l-kP4RneCvAImEBxtM',\r",
+									"    },\r",
+									"    body: {\r",
+									"        mode: 'raw',\r",
+									"        raw: JSON.stringify({\r",
+									"            'title': 'Pelicula para borrar',\r",
+									"            'year': 1999,\r",
+									"            'description': 'Es una pelicula de prueba para borrar',\r",
+									"            'genre': \"Borrar\",\r",
+									"            'calification' : 1,\r",
+									"            'duration': 90\r",
+									"        })\r",
+									"    }\r",
+									"}, function (err, res) {\r",
+									"    let resBody = new Buffer.from(res.stream).toString()\r",
+									"    //console.log(JSON.parse(res))\r",
+									"    j = JSON.parse(resBody)\r",
+									"    jSep = j['film'].split('/')\r",
+									"    id = jSep[4]\r",
+									"    //console.log(id)\r",
+									"    pm.environment.set(\"film_id\", id);\r",
+									"}); "
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "81e4555b-4081-4225-9c1f-569c45361261",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwidXNlciI6ImEiLCJwYXNzIjoiYSJ9.H1vwXMspdzH_eHkJUeVfb76_3l-kP4RneCvAImEBxtM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/films/{{film_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"films",
+								"{{film_id}}"
+							]
+						},
+						"description": "{id}: id de la pelicula a borrar\r\n\r\nUn usuario logueado puede borrar una pelicula"
+					},
+					"response": []
+				}
+			],
+			"description": "Conjunto de pruebas de usuarios logueados",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9b67c363-d123-4445-9073-6332c5ebdff7",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "c3f5dc65-d586-4cf4-9177-2062c6eac8bb",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -59,22 +59,6 @@ export default {
                 this.rent = data
             })
         },
-        /*obtenerAlquileres(){
-            fetch('http://localhost:3000/rents',{
-                headers:{
-                    'Accept': 'application/json',
-                    'Content-type': 'application/json',
-                    'Authorization': 'Bearer ' + this.currentUser.token
-                }
-            })
-            .then(res => res.json())
-            .then(data => {
-                console.log("Listado de alquileres")
-                for (var d in data){
-                    this.obtenerDatosPelicula(data[d].id)                    
-                }
-            })
-        },*/
         
         deleteRent(id){
             console.log("Borrar una pelicula")

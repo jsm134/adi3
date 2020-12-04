@@ -2,22 +2,25 @@
     <div class="container">
         <b-card no-body class="mb-1">
             <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3>
-                    {{film.title}}
-                </h3>
-            </div>
-            <div class="panel-body">
-                Año: {{film.year}}
-                <br>
-                Calificación: {{film.calification}} estrellas
-                <br>
-                Duración: {{film.duration}}min
-                <br>
-                Genero: {{film.genre}}
-                <br>
-                Descripción: {{film.description}}
-            </div>
+                <div class="panel-heading">
+                    <h3>
+                        {{film.title}}
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    Año: {{film.year}}
+                    <br>
+                    Calificación: {{film.calification}} estrellas
+                    <br>
+                    Duración: {{film.duration}}min
+                    <br>
+                    Genero: {{film.genre}}
+                    <br>
+                    Descripción: {{film.description}}
+                </div>
+                <div v-if="currentUser">
+                    <button class="btn btn-primary" v-on:click="addRent">Alquilar</button> 
+                </div>
             </div>
             <b-card-header header-tag="header" class="p-1" role="tab">
                 <b-button block href="#" v-b-toggle.accordion-2 variant="info">Comentarios</b-button>
@@ -71,10 +74,10 @@
   export default {
     data() {
       return {
-        dato: new Film(),
+        dato: [],
         film: new Film(),
         comentario: "",
-        datos: [],
+        date: "",
       }
     },
     computed: {
@@ -85,34 +88,32 @@
     created(){
         this.obtenerDatos()
     },
-    /*beforeMount: function() {
-        this.api.obtenerFilms().then((response)=>{
-            console.log(response)
-            response.linkFilms.forEach((dato)=>{
-                this.items.push(dato)
-            })
-        })
-    },*/
     methods: {
         obtenerDatos(){
             fetch('http://localhost:3000/films/'+this.$route.params.id)
             .then(res => res.json())
             .then(data => {
-                //console.log("Listado de peliculas")
                 this.dato = data
                 this.film = data.film[0]
-                //console.log(this.$route.params.id)
+            })
+            
+        },
+        addRent(){
+            console.log("hola")
+            //console.log(this.film)
+            fetch('http://localhost:3000/rents/film/' + this.film.id,{
+                method: 'POST',
+                headers:{
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + this.currentUser.token
+                }
+            }).then(res=>res.json())
+            .then(data => {
+                console.log(data)
+                this.$router.push('/rents');
             })
         },
-        /*obtenerComents(){
-            fetch('http://localhost:3000/films')
-            .then(res => res.json())
-            .then(data => {
-                console.log("Listado de peliculas")
-                this.films = data.film
-                console.log(this.films)
-            })
-        },*/
         deleteFilm(id){
             console.log(id)
         },
@@ -122,8 +123,6 @@
             var com = {
                 'mensaje': this.comentario
             }
-            //com.mensaje="aaaaaaaaa"
-            //console.log(com)
             fetch('http://localhost:3000/comments/' + this.$route.params.id,{
                 method: 'POST',
                 body: JSON.stringify(com),

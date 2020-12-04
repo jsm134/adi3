@@ -31,7 +31,7 @@ exports.buyRent = function(pet, resp){
         //console.log(bodyJSON)
         if(!bodyJSON.mensaje){
             var today = new Date()
-            date = today.getDate() + '/' + today.getMonth() + '/' + today.getFullYear()
+            date = today.getDate() + '/' + (today.getMonth()+1) + '/' + today.getFullYear()
             
             knex('rent').insert({
                 user_id: user_id,

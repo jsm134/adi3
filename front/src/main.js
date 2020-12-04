@@ -21,6 +21,7 @@ import DFilms from './components/FilmDetails'
 import EFilms from './components/EditFilm'
 import Rents from './components/Rents'
 import DRents from './components/RentDetails'
+import Register from './components/Register'
 
 
 // path: '/users/:id/edit',
@@ -61,6 +62,10 @@ const router = new VueRouter({
     {
       path: '/rents/:id/',
       component: DRents
+    },
+    {
+      path: '/signin',
+      component: Register
     },
   ]
 })

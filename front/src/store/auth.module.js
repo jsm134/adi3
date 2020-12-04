@@ -11,17 +11,21 @@ export const auth = {
   actions: {
     login({ commit }, user) {
         console.log("login")
-        console.log(user.username)
-        console.log(user.password)
+        /*console.log(user.username)
+        console.log(user.password)*/
         return fetch('http://localhost:3000/login', {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({user: user.username, pass: user.password}),
         }).then(res => res.json()).then(data => {
             console.log(data)
-            data.username = user.username
-            commit('loginSuccess', user);
-            localStorage.setItem('user', JSON.stringify(data))
+            if(data.mensaje=="OK"){
+              data.username = user.username
+              localStorage.setItem('user', JSON.stringify(data))
+              commit('loginSuccess', user);
+            }else{
+              console.log("Error login")
+            }
         })
     },
     logout({ commit }) {

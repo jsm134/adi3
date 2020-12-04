@@ -36,13 +36,13 @@
           >Password is required!</div>-->
         </div>
         <div class="form-group">
-          <button class="btn btn-primary btn-block" :disabled="loading">
-            <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+          <button class="btn btn-primary btn-block">
+            <!--<span v-show="loading" class="spinner-border spinner-border-sm"></span>-->
             <span>Login</span>
           </button>
         </div>
         <div class="form-group">
-          <div v-if="message" class="alert alert-danger" role="alert">{{message}}</div>
+          <div v-if="error" class="alert alert-danger" role="alert">{{error}}</div>
         </div>
       </form>
     </div>
@@ -60,7 +60,8 @@ export default {
     return {
       user: new User('', ''),
       loading: false,
-      message: ''
+      message: '',
+      error: null
     };
   },
   computed: {
@@ -79,8 +80,15 @@ export default {
         if (this.user.username && this.user.password) {
           this.$store.dispatch('auth/login', this.user).then(
             () => {
-              this.$router.push('/films');
-              this.currentUser
+              console.log("usuario actual")
+              if(!this.loggedIn){
+                this.error="Usuario o contraseña incorrectos"
+                console.log(this.error)
+              }else{
+                this.$router.push('/films');
+              }
+              
+              
             },
             /*error => {
               this.loading = false;

@@ -7,12 +7,15 @@
                         {{rent.film}}
                     </h3>
                 </div>
-                <div class="panel-body">
+                <div v-if="!error" class="panel-body">
                     Usuario: {{this.currentUser.username}}
                     <br>
                     ID de transacción: {{rent.id}}
                     <br>
                     Fecha del alquiler: {{rent.date}}min
+                </div>
+                <div class="form-group">
+                    <div v-if="error" class="alert alert-danger" role="alert">{{error}}</div>
                 </div>
             </div>
         </b-card>
@@ -25,6 +28,7 @@ export default {
     data() {
       return {
         rent: {},
+        error: "",
       }
     },
     created(){
@@ -56,7 +60,14 @@ export default {
             })
             .then(res => res.json())
             .then(data => {
-                this.rent = data
+                console.log(data)
+                if(data.id == undefined){
+                    console.log('Error ' + data.mensaje)
+                    this.error = 'Error: ' + data.mensaje
+                }else{
+                    this.rent = data
+                }
+                
             })
         },
         

@@ -28,6 +28,10 @@
       <div v-if="!currentUser">
         <b-nav-item><router-link to="/login">Login</router-link></b-nav-item>
       </div>
+      <div v-if="!currentUser">
+        <b-nav-item><router-link to="/signin">Registro</router-link></b-nav-item>
+      </div>
+      
       <div align="right" v-if="currentUser">
         <b-nav-item right>{{currentUser.username}}</b-nav-item>
       </div>

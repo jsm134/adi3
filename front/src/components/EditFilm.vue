@@ -36,24 +36,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-7">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Titulo</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="film of films">
-                            <td>{{film.title}}</td>
-                            <td>
-                                <router-link class="btn btn-primary" :to="'/films/' + film.id + 'edit'">Ver detalles</router-link>
-                           </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
         </div>
     </div>
 </template>
@@ -78,7 +60,8 @@
     },
     computed: {
         currentUser() {
-            return this.$store.state.auth.user;
+            //return this.$store.state.auth.user;
+            return JSON.parse(localStorage.getItem('user'))
         },
     },
     created(){

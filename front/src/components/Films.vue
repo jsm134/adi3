@@ -65,7 +65,8 @@
     },
     computed: {
         currentUser() {
-            return this.$store.state.auth.user;
+            return JSON.parse(localStorage.getItem('user'))
+            //return this.$store.state.auth.user;
         },
     },
     /*beforeMount: function() {

@@ -22,6 +22,7 @@ export const auth = {
             if(data.mensaje=="OK"){
               data.username = user.username
               localStorage.setItem('user', JSON.stringify(data))
+              //console.log(localStorage.getItem('user').token)
               commit('loginSuccess', user);
             }else{
               console.log("Error login")

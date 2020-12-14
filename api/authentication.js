@@ -16,6 +16,7 @@ var secret = "123456"
 //Middleware: lo pondremos ANTES de procesar la petición
 exports.loggueado = function chequeaJWT(pet, resp, next) {
     var cabecera = pet.header('Authorization')
+	//console.log(cabecera)
     //Parte el string por el espacio. Si está, devolverá un array de 2
     //la 2ª pos será lo que hay detrás de "Bearer"
     if(!cabecera){

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="col">
-        <h2>Listado de Peliculas</h2>
+        <h2>Listado de Alquileres</h2>
     </div>
     <div class="container">
         <div class="col">
@@ -50,7 +50,8 @@ export default {
     },
     computed: {
         currentUser() {
-            return this.$store.state.auth.user;
+            //return this.$store.state.auth.user;
+            return JSON.parse(localStorage.getItem('user'))
         },
     },
     methods: {
@@ -68,6 +69,10 @@ export default {
             })
         },
         obtenerAlquileres(){
+            /*console.log(localStorage.getItem('user'))
+            var u = localStorage.getItem('user')
+            console.log(JSON.parse(u))*/
+            //console.log('localstorage: ' + localStorage)
             fetch('http://localhost:3000/rents',{
                 headers:{
                     'Accept': 'application/json',

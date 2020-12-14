@@ -85,7 +85,15 @@ export default {
                 this.error="Usuario o contraseña incorrectos"
                 console.log(this.error)
               }else{
+                function getHeaders() {
+                  return {
+                    'Authorization': 'Bearer: ' + 
+                    window.localStorage.getItem('access_token')
+                  }  
+                }
+                //locate.reload().then(()=> this.$router.push('/films'))
                 this.$router.push('/films');
+                //next('/films')
               }
               
               

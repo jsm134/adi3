@@ -68,7 +68,7 @@ exports.getRentInfo = async function(pet, resp){
                         //console.log(query[0].i)
                         if(query[0].i == 0){
                             //resp.status(404).send({mensaje:"La pelicula no se ha encontrado"})
-                            console.log("aaaaaaaaa")
+                            //console.log("aaaaaaaaa")
                         }else{
                             knex('film').where('id', data[0].film_id).then(rows => {
                                 resp.status(200).send({

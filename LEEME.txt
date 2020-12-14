@@ -1,0 +1,15 @@
+Ejecución:
+- La API se encuentra dentro de la carpeta API y se ejecuta con nodemon server.js
+- El cliente se ha implementado con vue y se encuentra dentro de la carpeta front, este se ejecuta con npm run serve.
+
+Usuario para entrar:
+user: a
+pass: a
+
+Como partes optativas de la práctica se han realizado:
+- Implementación de vue-cli del proyecto.
+- Uso de un framework - bootstrap-vue
+- Implementada funcionalidad "Ver detalles" en este caso no sería ver detalles como tal, sino que dentro de una película es posible ver todos los comentarios que se han hecho de esa película dándole al botón de Comentarios en la información de una película, ahí aparecerán los comentarios sin cambiar de página.
+- Implementado un listado de otro recurso incluyendo ver detalles y eliminar, esto ha sido realizado del apartado de alquilar películas, se pueden ver los detalles del alquiler y borrar.
+- Edición de el objeto película.
+- Implementado vue-router, este se puede encontrar en main.js dentro de la carpeta src del front.
